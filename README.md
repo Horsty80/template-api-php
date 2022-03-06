@@ -1,56 +1,56 @@
 [![GitHub Actions](https://github.com/api-platform/core/workflows/CI/badge.svg)](https://github.com/api-platform/core/actions?workflow=CI)
 [![Codecov](https://codecov.io/gh/api-platform/core/branch/master/graph/badge.svg)](https://codecov.io/gh/api-platform/core/branch/master)
-[![SymfonyInsight](https://insight.symfony.com/projects/92d78899-946c-4282-89a3-ac92344f9a93/mini.svg)](https://insight.symfony.com/projects/92d78899-946c-4282-89a3-ac92344f9a93)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/api-platform/core/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/api-platform/core/?branch=master)
 
 Projet à partir d'ApiPlatform !
+Pour la docs associé ça se passe ici [Docs api platform](https://api-platform.com/docs)
 
 # Boilerplate API
 
 ## Composants
 
--   Caddy for serving
--   Postgrsql for database
--   Symfony for API
+-   Caddy pour les redirections serveur
+-   Postgrsql pour la base de données
+-   Symfony pour l'API
 
 ## Start project
 
-All with docker-compose
+Tout fonction avec docker et docker-compose
 
 ```bash
 docker-compose build --pull --no-cache
 docker-compose up -d
 ```
 
-You can go to `https://localhost/docs` to see the swagger of this API
+Vous pouvez aller sur `https://localhost/docs` pour accéder au swagger de l'API
 
-After that you can add fixture data for users
+Après ça vous pouvez ajouter de la data `fixture` pour les utilisateurs
 
 ```bash
 docker-compose exec php bin/console hautelook:fixtures:load
 ```
 
-## Localy Testing
+## Test local
 
-For local testing you need to create testing db (like in the CI)
+Pour tester localement l'application vous devez créer une base de donnée local (docker-compose n'ai pas configuré pour creer une base de test seulement celle de dev)
 
 ```bash
 docker-compose exec -T php bin/console -e test doctrine:database:create
 docker-compose exec -T php bin/console -e test doctrine:migrations:migrate --no-interaction
 ```
 
-After that you can add fixture data
+Après ça pareil on ajoute de la data
 
 ```bash
 docker-compose exec php bin/console -e test hautelook:fixtures:load
 ```
 
-To run test `docker-compose exec php bin/console -e test`
+Et on peut lancer les tests unitaires `docker-compose exec php bin/console -e test`
 
-## Authentication - JWT
+## Authentification - JWT
 
-All JWT authentication is already implemented and tested, you just need to create your own key.
-First run this command to generate JWT secrets ! don't push it to git !
+Tout le setup JWT est implémenté et testé, vous n'avez qu'a créer des key pour la création du token.
+Lancer la commande qui suit, attention à ne pas versionné les données sensibles.
 
 ```bash
 docker-compose exec php sh -c '
@@ -62,7 +62,7 @@ docker-compose exec php sh -c '
 '
 ```
 
-After that in `.env` file you have JWT env variable and you have in `api/config/jwt` folder with file `private.pem` and `public.pem` ! don't push it to git !
+Après ça dans le fichier `.env` vous trouverez les variables d'env JWT et un dossier `api/config/jwt` avec les fichier `private.pem` and `public.pem`. Pareil attention à ne pas versionner les données sensibles.
 
 ```
 JWT_SECRET_KEY=%kernel.project_dir%/config/jwt/private.pem
@@ -70,13 +70,12 @@ JWT_PUBLIC_KEY=%kernel.project_dir%/config/jwt/public.pem
 JWT_PASSPHRASE=passphrase_generated
 ```
 
-That's it !
+Et voilà !
 
-## Available Routes
+## Routes disponible
 
 Only 2 routes are public
+Seulement 2 routes sont publics, les autres sont accessible seulement à un utilisateur admin.
 
--   https://localhost/authentication_token -> To retrieve JWT of register user
--   https://localhost/users/register -> To create new register user
-
-All other routes are securize only for roles `ROLE_ADMIN`
+-   https://localhost/users/register -> Pour créer un utilisateur avec le role `ROLE_USER`
+-   https://localhost/authentication_token -> Pour récupérer son JWT
