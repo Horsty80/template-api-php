@@ -1,0 +1,14 @@
+# api/fixtures/users.yaml
+App\Entity\User:
+    user_1:
+        email: "testadmin@gmail.com"
+        password: <hashPassword('testadmin')>
+        roles: ["ROLE_ADMIN", "ROLE_USER"]
+    user_{2..5}:
+        email: <email()>
+        password: <hashPassword('plainPassword')>
+        roles: ["ROLE_USER"]
+    user_6:
+        email: "testregister@gmail.com"
+        password: <hashPassword('testregister')>
+        roles: ["ROLE_USER"]
