@@ -38,7 +38,7 @@
     ```
     docker-compose exec php bin/phpunit
     ```
--   Run on test db `php bin/console -e test`
+-   Run command on test db `php bin/console -e test`
 -   Load fixture on db
     ```
     docker-compose exec php bin/console hautelook:fixtures:load

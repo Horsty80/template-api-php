@@ -45,7 +45,7 @@ After that you can add fixture data
 docker-compose exec php bin/console -e test hautelook:fixtures:load
 ```
 
-To run test `php bin/console -e test`
+To run test `docker-compose exec php bin/console -e test`
 
 ## Authentication - JWT
 
@@ -71,3 +71,12 @@ JWT_PASSPHRASE=passphrase_generated
 ```
 
 That's it !
+
+## Available Routes
+
+Only 2 routes are public
+
+-   https://localhost/authentication_token -> To retrieve JWT of register user
+-   https://localhost/users/register -> To create new register user
+
+All other routes are securize only for roles `ROLE_ADMIN`

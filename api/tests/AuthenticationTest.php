@@ -46,6 +46,7 @@ class AuthenticationTest extends ApiTestCase
         $options =  ['headers' => ['Content-Type' => 'application/json', 'accept' => 'application/json', 'authorization' => 'Bearer ' . $json['token']]];
         // test authorized
         $client->request('GET', '/users', $options);
-        $this->assertResponseIsSuccessful();
+        // get 403 because non admin profile
+        $this->assertResponseStatusCodeSame(403);
     }
 }
